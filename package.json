@@ -1,34 +1,82 @@
 {
-  "name": "cppgenerator",
-  "displayName": "CppGenerator",
-  "description": "A Vscode extension to generator cpp class",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.87.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [{
-      "command": "cppgenerator.helloWorld",
-      "title": "Hello World"
-    }]
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.87.0",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "18.x",
-    "eslint": "^8.57.0",
-    "typescript": "^5.3.3",
-    "@vscode/test-cli": "^0.0.8",
-    "@vscode/test-electron": "^2.3.9"
-  }
+    "name": "cppgenerator",
+    "displayName": "CppGenerator",
+    "description": "A Vscode extension to generator cpp class",
+    "version": "1.0.0",
+    "publisher": "haytham",
+    "author": {
+        "name": "Haytham",
+        "email": "haytham818@outlook.com"
+    },
+    "engines": {
+        "vscode": "^1.87.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:cpp"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.createClass",
+                "title": "Create Class"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "extension.createClass",
+                    "when": "explorerResourceIsFolder"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "CppGenerator",
+            "properties": {
+                "cppgenerator.useIfdefOrPragmaonce": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use #pragma once"
+                },
+                "cppgenerator.userName": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Set user name,if empty will use system"
+                },
+                "cppgenerator.userEmail": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Email address of the user,if empty will not be used"
+                },
+                "cppgenerator.timeFormat": {
+                    "type": "string",
+                    "default": "%Y-%m-%d",
+                    "description": "Time format for the header file comment time stamp (strftime format)"
+                },
+                "cppgenerator.withCtor&dtor": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Generate constructor and destructor"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "npm run lint",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.87.0",
+        "@types/mocha": "^10.0.6",
+        "@types/node": "18.x",
+        "eslint": "^8.57.0",
+        "typescript": "^5.3.3",
+        "@vscode/test-cli": "^0.0.8",
+        "@vscode/test-electron": "^2.3.9"
+    }
 }
+
