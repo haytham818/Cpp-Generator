@@ -52,11 +52,6 @@
                     "default": "",
                     "description": "Email address of the user,if empty will not be used"
                 },
-                "cppgenerator.withCtor&dtor": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Generate constructor and destructor"
-                },
                 "cppgenerator.addToCmake": {
                     "type": "boolean",
                     "default": false,

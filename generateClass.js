@@ -113,6 +113,19 @@ function generateCppFileContent(className) {
 }
 
 /**
+ * @param {string} name
+ */
+function createSourceFile(name) {
+    fs.writeFileSync(
+        path.join(
+            vscode.workspace.workspaceFolders[0].uri.fsPath,
+            name + ".cpp"
+        ),
+        generateCppFileContent(name)
+    );
+}
+
+/**
  * Generates the author comment for the generated class file.
  * @returns {string} The author comment.
  */
@@ -182,6 +195,29 @@ function addToCmake(className, addHeader) {
     fs.writeFileSync(cmakeFilePath, newCmakeFileContent, "utf8");
 }
 
+/**
+ * @param {string} name
+ */
+function createHeader(name) {
+    const config = vscode.workspace.getConfiguration("cppgenerator");
+    const ispragma = config.get("headerProctectStyel");
+    const headerGuard = generateHeaderGuard(name, ispragma);
+    let content = generateAuthorComment();
+    content += `${headerGuard}`;
+    content += `\n\n`;
+    if (!ispragma) {
+        content += `\n#endif // ${name.toUpperCase()}_H`;
+    }
+
+    fs.writeFileSync(
+        path.join(vscode.workspace.workspaceFolders[0].uri.fsPath, name + ".h"),
+        content
+    );
+}
+
 module.exports = {
     createClass,
+    createHeader,
+    createSourceFile,
+    addToCmake,
 };
