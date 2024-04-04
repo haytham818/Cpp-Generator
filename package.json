@@ -37,7 +37,7 @@
         "configuration": {
             "title": "CppGenerator",
             "properties": {
-                "cppgenerator.useIfdefOrPragmaonce": {
+                "cppgenerator.headerProctectStyel": {
                     "type": "boolean",
                     "default": true,
                     "description": "Use #pragma once"
@@ -51,11 +51,6 @@
                     "type": "string",
                     "default": "",
                     "description": "Email address of the user,if empty will not be used"
-                },
-                "cppgenerator.timeFormat": {
-                    "type": "string",
-                    "default": "%Y-%m-%d",
-                    "description": "Time format for the header file comment time stamp (strftime format)"
                 },
                 "cppgenerator.withCtor&dtor": {
                     "type": "boolean",

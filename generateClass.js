@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const vscode = require("vscode");
+const os = require("os");
 
 /**
  * @param {string} className
@@ -55,26 +56,38 @@ function searchFiles(name, dir) {
 
 /**
  * @param {string} className
+ * @param {boolean} ispragma
  */
-function generateHeaderGuard(className) {
+function generateHeaderGuard(className, ispragma) {
     const upperCaseClassName = className.toUpperCase();
-    return `#ifndef ${upperCaseClassName}_H
+    if (ispragma) {
+        return `#pragma once`;
+    } else {
+        return `#ifndef ${upperCaseClassName}_H
 #define ${upperCaseClassName}_H`;
+    }
 }
 
 /**
  * @param {string} className
  */
 function generateHeaderFileContent(className) {
-    const headerGuard = generateHeaderGuard(className);
-    return `${headerGuard}
+    const config = vscode.workspace.getConfiguration("cppgenerator");
+    const ispragma = config.get("headerProctectStyel");
+    const headerGuard = generateHeaderGuard(className, ispragma);
+    let content = generateAuthorComment();
+    content += `${headerGuard}
 
 class ${className} {
 public:
         
-};
+};`;
 
-#endif // ${className.toUpperCase()}_H`;
+    if (!ispragma) {
+        content += `\n#endif // ${className.toUpperCase()}_H`;
+    }
+
+    return content;
 }
 
 /**
@@ -82,6 +95,28 @@ public:
  */
 function generateCppFileContent(className) {
     return `#include "${className}.h"`;
+}
+
+function generateAuthorComment() {
+    const config = vscode.workspace.getConfiguration("cppgenerator");
+    let authorName = config.get("userName");
+    const authorEmail = config.get("userEmail");
+    const userLocale = new Intl.DateTimeFormat().resolvedOptions().locale;
+    const currentDate = new Date().toLocaleDateString(userLocale, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    });
+    if (authorName === "") {
+        authorName = os.userInfo().username;
+    }
+    let authorComment = `//
+// Created by ${authorName} on ${currentDate}.\n`;
+    if (authorEmail !== "") {
+        authorComment += `// Contact: ${authorEmail}\n`;
+    }
+    authorComment += "//\n\n";
+    return authorComment;
 }
 
 module.exports = {
