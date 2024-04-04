@@ -9,6 +9,11 @@
         "email": "haytham818@outlook.com",
         "url": "https://github.com/haytham818"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/haytham818/Cpp-Generator.git"
+    },
+    "license": "MIT",
     "engines": {
         "vscode": "^1.87.0"
     },

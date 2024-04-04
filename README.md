@@ -1,65 +1,37 @@
-# cppgenerator README
+# C++ Class Generator
 
-This is the README for your extension "cppgenerator". After writing up a brief description, we recommend including the following sections.
+C++ Class Generator 是一个VS Code扩展，它可以帮助你快速创建C++类。
 
-## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## 功能
 
-For example if there is an image subfolder under your extension project workspace:
+- 创建C++类：输入类名，扩展将为你创建一个头文件和一个源文件。
+- 添加到CMakeLists.txt：如果你的工作区中有一个`CMakeLists.txt`文件，扩展可以自动将新创建的类添加到`add_executable`命令中。
+- 生成作者注释：扩展可以在生成的文件中添加一个作者注释，包含作者的名字、电子邮箱和当前日期。
 
-\!\[feature X\]\(images/feature-x.png\)
+## 使用方法
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. 安装扩展。
+2. 打开命令面板（`Ctrl+Shift+P`或`Cmd+Shift+P`），然后输入`Create Class`来创建一个新的类,或是在文件资源管理器右键菜单调用。
+3. 在弹出的输入框选择生成的种类并中输入你的类名，然后按`Enter`。
 
-## Requirements
+## 设置
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+你可以在VS Code的设置中配置以下选项：
 
-## Extension Settings
+- `cppgenerator.userName`：你的名字，将被添加到生成的文件的作者注释中。
+- `cppgenerator.userEmail`：你的电子邮箱，将被添加到生成的文件的作者注释中。
+- `cppgenerator.addToCmake`：是否将新创建的类添加到`CMakeLists.txt`文件中。
+- `cppgenerator.addHeader`：是否在`CMakeLists.txt`文件中添加头文件。
+- `cppgenerator.headerProctectStyel`: 改变头文件保护的样式，#ifdef 或是 #pragma once。
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## 贡献
 
-For example:
+如果你有任何问题或建议，欢迎提交issue或pull request。
 
-This extension contributes the following settings:
+## 许可证
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+这个项目使用MIT许可证，详情请见[LICENSE](LICENSE)文件。
 
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## Github
+<https://github.com/haytham818/Cpp-Generator>
