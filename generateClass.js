@@ -4,7 +4,8 @@ const vscode = require("vscode");
 const os = require("os");
 
 /**
- * @param {string} className
+ * Creates a new class with the given name.
+ * @param {string} className - The name of the class to create.
  */
 function createClass(className) {
     const hFileName = className + ".h";
@@ -42,8 +43,10 @@ function createClass(className) {
 }
 
 /**
- * @param {string} name
- * @param {string} [dir]
+ * Searches for a file with the specified name in the given directory and its subdirectories.
+ * @param {string} name - The name of the file to search for.
+ * @param {string} dir - The directory to start the search from.
+ * @returns {boolean} - Returns true if the file is found, false otherwise.
  */
 function searchFiles(name, dir) {
     const files = fs.readdirSync(dir);
@@ -62,8 +65,11 @@ function searchFiles(name, dir) {
 }
 
 /**
- * @param {string} className
- * @param {boolean} ispragma
+ * Generates the header guard for a C++ class.
+ *
+ * @param {string} className - The name of the class.
+ * @param {boolean} ispragma - Indicates whether to use #pragma once or ifndef/define.
+ * @returns {string} The generated header guard.
  */
 function generateHeaderGuard(className, ispragma) {
     const upperCaseClassName = className.toUpperCase();
@@ -76,7 +82,9 @@ function generateHeaderGuard(className, ispragma) {
 }
 
 /**
- * @param {string} className
+ * Generates the content for a C++ header file for a given class.
+ * @param {string} className - The name of the class.
+ * @returns {string} The content of the header file.
  */
 function generateHeaderFileContent(className) {
     const config = vscode.workspace.getConfiguration("cppgenerator");
@@ -104,6 +112,10 @@ function generateCppFileContent(className) {
     return `#include "${className}.h"`;
 }
 
+/**
+ * Generates the author comment for the generated class file.
+ * @returns {string} The author comment.
+ */
 function generateAuthorComment() {
     const config = vscode.workspace.getConfiguration("cppgenerator");
     let authorName = config.get("userName");
@@ -114,12 +126,12 @@ function generateAuthorComment() {
         month: "2-digit",
         day: "2-digit",
     });
-    if (authorName === "") {
+    if (authorName.trim() === "") {
         authorName = os.userInfo().username;
     }
     let authorComment = `//
 // Created by ${authorName} on ${currentDate}.\n`;
-    if (authorEmail !== "") {
+    if (authorEmail.trim() !== "") {
         authorComment += `// Contact: ${authorEmail}\n`;
     }
     authorComment += "//\n\n";
@@ -127,8 +139,9 @@ function generateAuthorComment() {
 }
 
 /**
- * @param {string} className
- * @param {boolean} addHeader
+ * Adds a source file and header file (optional) to the CMakeLists.txt file in the current workspace.
+ * @param {string} className - The name of the class to be added.
+ * @param {boolean} addHeader - Whether to add the header file or not.
  */
 function addToCmake(className, addHeader) {
     const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
