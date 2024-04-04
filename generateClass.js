@@ -10,6 +10,9 @@ function createClass(className) {
     const hFileName = className + ".h";
     const cppFileName = className + ".cpp";
     const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    const config = vscode.workspace.getConfiguration("cppgenerator");
+    const addTo = config.get("addToCmake");
+    const addHeader = config.get("addHeader");
 
     if (
         searchFiles(hFileName, rootPath) ||
@@ -28,6 +31,10 @@ function createClass(className) {
 
     fs.writeFileSync(hFilePath, generateHeaderFileContent(className));
     fs.writeFileSync(cppFilePath, generateCppFileContent(className));
+
+    if (addTo) {
+        addToCmake(className, addHeader);
+    }
 
     vscode.window.showInformationMessage(
         "Class " + className + " has been created."
@@ -117,6 +124,49 @@ function generateAuthorComment() {
     }
     authorComment += "//\n\n";
     return authorComment;
+}
+
+/**
+ * @param {string} className
+ * @param {boolean} addHeader
+ */
+function addToCmake(className, addHeader) {
+    const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    if (!fs.existsSync(path.join(rootPath, "CMakeLists.txt"))) {
+        vscode.window.showErrorMessage(
+            "Error: CMakeLists.txt file not found in the current workspace."
+        );
+        return;
+    }
+
+    const cmakeFilePath = path.join(rootPath, "CMakeLists.txt");
+    const cmakeFileContent = fs.readFileSync(cmakeFilePath, "utf8");
+    const lines = cmakeFileContent.split("\n");
+
+    let targetLineIndex = -1;
+    for (let i = lines.length - 1; i >= 0; i--) {
+        if (lines[i].includes("add_executable")) {
+            targetLineIndex = i;
+            break;
+        }
+    }
+
+    if (targetLineIndex !== -1) {
+        const rightParenthesis = lines[targetLineIndex].indexOf(")");
+        let newLine =
+            lines[targetLineIndex].substring(0, rightParenthesis) +
+            " " +
+            className +
+            ".cpp";
+        if (addHeader) {
+            newLine += " " + className + ".h";
+        }
+        newLine += ")";
+        lines[targetLineIndex] = newLine;
+    }
+
+    const newCmakeFileContent = lines.join("\n");
+    fs.writeFileSync(cmakeFilePath, newCmakeFileContent, "utf8");
 }
 
 module.exports = {

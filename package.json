@@ -56,6 +56,16 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Generate constructor and destructor"
+                },
+                "cppgenerator.addToCmake": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Add the class to CMakeLists.txt"
+                },
+                "cppgenerator.addHeader": {
+                    "type": "boolean",
+                    "default": false,
+                    "description ": "Add the class header to CMakeLists.txt,if Add to CMakeLists.txt is enabled"
                 }
             }
         }
