@@ -65,7 +65,7 @@
                 "cppgenerator.addHeader": {
                     "type": "boolean",
                     "default": false,
-                    "description ": "Add the class header to CMakeLists.txt,if Add to CMakeLists.txt is enabled"
+                    "description": "Add the class header to CMakeLists.txt,if Add to CMakeLists.txt is enabled"
                 }
             }
         }
